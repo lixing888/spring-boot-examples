@@ -3,15 +3,16 @@ package com.neo.controller;
 import com.neo.config.BaseResult;
 import com.neo.model.User;
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.util.*;
 
-
+/**
+ * @author lixing
+ * http://127.0.0.1:9527/doc.html#
+ */
 @Api(value = "用户管理", description = "用户管理API", position = 100, protocols = "http")
 @RestController
 @RequestMapping(value = "/user")
@@ -39,6 +40,14 @@ public class UserController {
         users.put(user.getId(), user);
         return BaseResult.successWithData(user);
     }
+
+    @ApiOperation(value = "保存用户信息", notes = "根据User对象创建用户")
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    public BaseResult<User> saveUser(@Valid @RequestBody User user) {
+        users.put(user.getId(), user);
+        return BaseResult.successWithData(user);
+    }
+
 
     @ApiOperation(value = "获取用户详细信息", notes = "根据url的id来获取用户详细信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", paramType = "path")
